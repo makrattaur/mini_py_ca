@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import argparse
 import datetime
 import re
 import sys
@@ -18,14 +19,28 @@ from mini_py_ca import dbaccess
 from mini_py_ca import x509ext
 from mini_py_ca import utils
 
-section = config.get_section_for_context("sign_request")
+
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "--section",
+    help = "Section name to use"
+)
+
+parser.add_argument(
+    'csr_file',
+    help = 'The CSR to sign'
+)
+
+args = parser.parse_args()
+
+section = config.get_section_for_context("sign_request", args.section)
 if not isinstance(section, config.SignRequest):
     raise Exception("Wrong section kind for signing certificate request.")
 
 authority_certificate_serial = dbaccess.find_current_authority_certificate_serial()
 authority_certificate = common.load_certificate_by_serial(authority_certificate_serial)
 
-request_bytes = utils.read_all_bytes(sys.argv[1])
+request_bytes = utils.read_all_bytes(args.csr_file)
 request = x509.load_pem_x509_csr(request_bytes, default_backend())
 
 duration = section.duration
