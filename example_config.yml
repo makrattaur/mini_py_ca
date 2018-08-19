@@ -1,0 +1,70 @@
+_default_section:
+  authority_key: authority_key
+  root_authority: root_authority
+  revocation_list: revocation_list
+  sign_request: authority
+
+authority_key:
+  kind: key_spec
+  key_length: 2048
+  key_algorithm: rsa
+
+root_authority:
+  kind: certificate
+  signature_algorithm: sha256
+  duration:
+    years: 10
+  distinguished_name:
+    - o: Acme Corporation
+    - cn: Acme Corporation Authority
+  extensions:
+    basicConstraints:
+      critical: true
+      ca: true
+#      pathLenConstraint: 0
+    keyUsage:
+      critical: true
+      usages:
+        - cRLSign
+        - keyCertSign
+    subjectKeyIdentifier:
+      critical: false
+      value: subject_hash
+    authorityKeyIdentifier:
+      critical: false
+      keyIdentifier: issuer_hash
+    crlDistributionPoints:
+      critical: false
+      distributionPoints:
+        - fullName:
+            - URI: http://pki.acme.corp/acme.crl
+    authorityInfoAccess:
+      critical: false
+      accessDescriptions:
+        - caIssuers: { URI: http://pki.acme.corp/acme.pem }
+#      oscp:
+
+revocation_list:
+  kind: revocation_list
+  signature_algorithm: sha256
+  duration:
+    days: 180
+
+authority:
+  kind: sign_request
+  signature_algorithm: sha256
+  duration:
+    years: 5
+  extensions:
+    subjectKeyIdentifier:
+      action: add
+      critical: false
+      value: subject_hash
+    authorityKeyIdentifier:
+      action: add
+      critical: false
+      keyIdentifier: issuer_hash
+    basicConstraints:
+      forced_critical_value: true
+    keyUsage:
+      forced_critical_value: true
