@@ -241,6 +241,17 @@ def add_crl_to_db(crl, date_created):
     conn.commit()
     cur.close()
 
+def get_active_certificates():
+    conn = get_connection()
+
+    array = get_certificates_by_filter(
+        conn,
+        ":current_utc_date < ic.not_after_date",
+        {"current_utc_date": utils.to_timestamp_milis(utils.utc_now())}
+    )
+
+    return array
+
 class AutoClose:
 
     def __init__(self, obj):
@@ -295,7 +306,7 @@ WHERE """ + sql_filter +  ";"
                 not_after_date = utils.from_timestamp_milis(row[3]),
                 serial = int(row[4], 16),
                 subject = row[5],
-                is_self_signed = row[6],
+                is_self_signed = bool(row[6]),
                 is_revoked = not row[7] is None,
                 revocation_date = None if row[8] is None else utils.from_timestamp_milis(row[8]),
                 revocation_reason = row[9]
