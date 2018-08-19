@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+import argparse
 import datetime
 
 from cryptography import x509
@@ -19,7 +20,15 @@ from mini_py_ca import utils
 from pprint import pprint
 
 
-section = config.get_section_for_context("root_authority")
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "--section",
+    help = "Section name to use"
+)
+
+args = parser.parse_args()
+
+section = config.get_section_for_context("root_authority", args.section)
 if not isinstance(section, config.Certificate):
     raise Exception("Wrong section kind for root certificate generation.")
 

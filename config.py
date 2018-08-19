@@ -150,16 +150,21 @@ def parse_section(section_dict, section_name):
     elif kind == "revocation_list":
         return RevocationList(section_dict, section_name)
 
-def get_section_for_context(context_name):
+def get_section_for_context(context_name, override_section_name = None):
     config = read_config_file()
 
-    section_name = context_name
-    if "_default_section" in config:
-        default_section = config["_default_section"]
+    section_name = override_section_name
+    if section_name is None:
+        section_name = context_name
 
-        if context_name in default_section:
-            section_name = default_section[context_name]
+        if "_default_section" in config:
+            default_section = config["_default_section"]
+
+            if context_name in default_section:
+                section_name = default_section[context_name]
+
+    if not section_name in config:
+        raise Exception("No section with name '" + section_name + "'.")
 
     return parse_section(config[section_name], section_name)
-
 
