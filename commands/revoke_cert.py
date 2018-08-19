@@ -1,23 +1,30 @@
 #!/usr/bin/env python3
 
 
+import argparse
 import sys
 
 from mini_py_ca import dbaccess
 from mini_py_ca import utils
 
-certificate_id = int(sys.argv[1])
-reason = None
-if len(sys.argv) > 2:
-    reason = sys.argv[2]
 
-    if not reason in dbaccess.reason_flag_mapping:
-        print("Invalid reason '{0}', must be one of {1}.".format(
-            reason,
-            ", ".join(key for key in dbaccess.reason_flag_mapping.keys())
-        ))
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "--reason",
+    choices = [ key for key in dbaccess.reason_flag_mapping.keys() ],
+    help = "The (optional) reason for the revocation"
+)
 
-        sys.exit(1)
+parser.add_argument(
+    'certificate_id',
+    type = int,
+    help = 'The certificate id to revoke'
+)
+
+args = parser.parse_args()
+
+certificate_id = args.certificate_id
+reason = args.reason
 
 cert = dbaccess.get_certificate_by_id(certificate_id)
 if cert is None:
