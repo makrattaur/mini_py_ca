@@ -14,18 +14,28 @@ from mini_py_ca import config
 
 parser = argparse.ArgumentParser()
 parser.add_argument(
-    '--encrypt',
-    action='store_true',
-    help='Encrypt the generated key'
+    "--encrypt",
+    action = "store_true",
+    help = "Encrypt the generated key"
+)
+
+parser.add_argument(
+    "--size",
+    type = int,
+    required = True,
+    help = "Size of the generated key"
+)
+
+parser.add_argument(
+    "--algorithm",
+    choices = [ "rsa" ],
+    required = True,
+    help = "Algorithm of the generated key"
 )
 
 args = parser.parse_args()
 
-section = config.get_section_for_context("authority_key")
-if not isinstance(section, config.KeySpec):
-    raise Exception("Wrong section kind for asymmetric key generation.")
-
-key_size = section.key_length
+key_size = args.size
 
 private_key = rsa.generate_private_key(
     public_exponent = 65537,

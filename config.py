@@ -11,23 +11,6 @@ from mini_py_ca import utils
 
 supported_signature_algorithms = [ "sha256", "sha512" ]
 
-class KeySpec:
-    def __init__(self, section_dict, section_name):
-        if not "key_algorithm" in section_dict:
-            raise Exception("Missing key algorithm in section '" + section_name + "'.")
-
-        if section_dict["key_algorithm"] != "rsa":
-            raise Exception("RSA is the only supported algorithm.")
-
-        self.key_algorithm = section_dict["key_algorithm"]
-
-        if not "key_length" in section_dict:
-            raise Exception("Missing key length in section '" + section_name + "'.")
-
-        self.key_length = section_dict["key_length"]
-
-        self.section_name = section_name
-
 class Certificate:
     def __init__(self, section_dict, section_name):
         parse_signed_object(self, section_dict, section_name)
@@ -160,9 +143,7 @@ def parse_section(section_dict, section_name):
 
     kind = section_dict["kind"]
 
-    if kind == "key_spec":
-        return KeySpec(section_dict, section_name)
-    elif kind == "certificate":
+    if kind == "certificate":
         return Certificate(section_dict, section_name)
     elif kind == "sign_request":
         return SignRequest(section_dict, section_name)

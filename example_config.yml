@@ -1,13 +1,7 @@
 _default_section:
-  authority_key: authority_key
   root_authority: root_authority
   revocation_list: revocation_list
   sign_request: authority
-
-authority_key:
-  kind: key_spec
-  key_length: 2048
-  key_algorithm: rsa
 
 root_authority:
   kind: certificate
