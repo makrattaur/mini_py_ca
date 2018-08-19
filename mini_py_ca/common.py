@@ -94,7 +94,7 @@ def load_certificate_by_serial(serial):
 
 
 def load_private_key():
-    private_key_bytes = utils.read_all_bytes("private/cakey.pem")
+    private_key_bytes = utils.read_all_bytes(get_current_private_key_path())
 
     try:
         private_key = serialization.load_pem_private_key(
@@ -121,5 +121,27 @@ def load_encrypted_private_key_bytes(private_key_bytes):
     except ValueError:
         print("Invalid key password.")
         sys.exit(1)
+
+def make_path_from_config_dir(relative_path):
+    dir_name = ".minipyca"
+
+    if not os.path.exists(dir_name):
+        os.mkdir(dir_name)
+
+    return os.path.abspath(os.path.join(dir_name, relative_path))
+
+def make_path_from_private_dir(relative_path):
+    private_key_dir = make_path_from_config_dir("private")
+
+    if not os.path.exists(private_key_dir):
+        os.mkdir(private_key_dir)
+
+    return os.path.join(private_key_dir, relative_path)
+
+def get_current_private_key_path():
+    return make_path_from_private_dir("cakey.pem")
+
+def get_temp_private_key_path():
+    return make_path_from_private_dir("cakey.pem.new")
 
 

@@ -8,6 +8,7 @@ from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives import serialization
 
+from mini_py_ca import common
 from mini_py_ca import utils
 from mini_py_ca import config
 
@@ -54,14 +55,6 @@ serialized_private_key = private_key.private_bytes(
     encryption_algorithm = key_encryption
 )
 
-utils.write_all_bytes("private/cakey.pem", serialized_private_key)
-
-public_key = private_key.public_key()
-serialized_public_key = public_key.public_bytes(
-    encoding = serialization.Encoding.PEM,
-    format = serialization.PublicFormat.SubjectPublicKeyInfo
-)
-
-utils.write_all_bytes("public_key.pem", serialized_public_key)
+utils.write_all_bytes(common.get_current_private_key_path(), serialized_private_key)
 
 

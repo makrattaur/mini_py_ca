@@ -7,6 +7,7 @@ import re
 import enum
 from enum import Enum
 
+from mini_py_ca import common
 from mini_py_ca import utils
 
 supported_signature_algorithms = [ "sha256", "sha512" ]
@@ -134,7 +135,8 @@ def parse_distinguished_name(rdn_sequence):
 def read_config_file():
     parser = YAML(typ = "safe")
 
-    return parser.load(utils.read_all_bytes("config.yml"))
+    config_file_path = common.make_path_from_config_dir("config.yml")
+    return parser.load(utils.read_all_bytes(config_file_path))
 
 def parse_section(section_dict, section_name):
 

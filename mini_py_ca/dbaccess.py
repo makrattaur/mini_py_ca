@@ -5,6 +5,7 @@ import sqlite3
 
 from cryptography import x509
 
+from mini_py_ca import common
 from mini_py_ca import utils
 
 database_connection = None
@@ -258,7 +259,8 @@ def add_plaintext_revocation_entry(serial, time, reason):
        reason \
     ]
 
-    with open("revocation.log", "a") as log:
+    log_path = common.make_path_from_config_dir("revocation.log")
+    with open(log_path, "a") as log:
         log.write((",".join(entry)) + "\n")
 
 def get_certificates_by_filter(conn, sql_filter, values):
@@ -308,7 +310,8 @@ def get_connection():
     global database_connection
 
     if database_connection is None:
-        database_connection = sqlite3.connect("db.sqlite")
+        db_path = common.make_path_from_config_dir("db.sqlite")
+        database_connection = sqlite3.connect(db_path)
         
         pragma_cur = database_connection.execute("PRAGMA foreign_keys = ON;")
         pragma_cur.close()

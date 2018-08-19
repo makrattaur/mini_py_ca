@@ -22,7 +22,8 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-private_key_bytes = utils.read_all_bytes("private/cakey.pem")
+private_key_path = common.get_current_private_key_path()
+private_key_bytes = utils.read_all_bytes(private_key_path)
 
 private_key = None
 is_encrypted = False
@@ -51,8 +52,9 @@ serialized_private_key = private_key.private_bytes(
     encryption_algorithm = key_encryption
 )
 
-utils.write_all_bytes("private/cakey.pem.new", serialized_private_key)
-os.replace("private/cakey.pem.new", "private/cakey.pem")
+temp_private_key_path = common.get_temp_private_key_path()
+utils.write_all_bytes(temp_private_key_path, serialized_private_key)
+os.replace(temp_private_key_path, private_key_path)
 
 print("Key " + args.operation + "ed successfully.")
 
