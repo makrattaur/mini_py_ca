@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import argparse
+
 from cryptography import x509
 
 from cryptography.hazmat.backends import default_backend
@@ -12,7 +14,15 @@ from mini_py_ca import dbaccess
 from mini_py_ca import utils
 
 
-section = config.get_section_for_context("revocation_list")
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "--section",
+    help = "Section name to use"
+)
+
+args = parser.parse_args()
+
+section = config.get_section_for_context("revocation_list", args.section)
 if not isinstance(section, config.RevocationList):
     raise Exception("Wrong section kind for generating revocation list.")
 
