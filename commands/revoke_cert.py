@@ -40,11 +40,18 @@ if utc_now > cert.not_after_date:
 
 formatted_serial = utils.format_serial(cert.serial)
 
-print("Will revoke certificate id {0}, serial {1}, expiring on {2}, issued to {3}.".format(
+msg_format = "Will revoke certificate id {0}:\n" + \
+    " - serial {1}\n" + \
+    " - for subject {3}\n" + \
+    " - issued on {4}\n" + \
+    " - expiring on {2}"
+
+print(msg_format.format(
     cert.id,
     formatted_serial,
     cert.not_after_date.astimezone(tz = None),
-    cert.subject
+    cert.subject,
+    cert.not_before_date.astimezone(tz = None)
 ))
 dbaccess.revoke_certificate_by_id(utc_now, certificate_id, formatted_serial, reason)
 
