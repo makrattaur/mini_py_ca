@@ -136,7 +136,9 @@ def read_config_file():
     parser = YAML(typ = "safe")
 
     config_file_path = common.make_path_from_config_dir("config.yml")
-    return parser.load(utils.read_all_bytes(config_file_path))
+
+    with open(config_file_path, "rb") as file:
+        return parser.load(file)
 
 def parse_section(section_dict, section_name):
 
