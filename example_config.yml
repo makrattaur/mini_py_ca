@@ -35,7 +35,8 @@ root_authority:
     authorityInfoAccess:
       critical: false
       accessDescriptions:
-        - caIssuers: { URI: http://pki.acme.corp/acme.pem }
+        - caIssuers:
+            URI: http://pki.acme.corp/acme.pem
 #      oscp:
 
 revocation_list:
