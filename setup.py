@@ -2,11 +2,28 @@
 
 
 from setuptools import setup
+import subprocess
+
+def get_git_head_hash():
+    try:
+        proc = subprocess.Popen(
+            ['git', 'rev-parse', '--short', 'HEAD'],
+            stdout = subprocess.PIPE,
+            stderr = subprocess.PIPE
+        )
+
+        proc.stderr.close()
+
+        line = proc.stdout.readlines()[0].decode("ascii")
+        return line.strip()
+
+    except:
+        raise ValueError("Cannot get current HEAD revision hash !")
 
 
 setup(
     name = "mini_py_ca",
-    version = "0.0.1",
+    version = "0.0.1+" + get_git_head_hash(),
     description = "Minimal and simple root certification authority",
     packages = [ "mini_py_ca", "mini_py_ca.commands" ],
     install_requires = [
