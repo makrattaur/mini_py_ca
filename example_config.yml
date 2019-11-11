@@ -32,11 +32,6 @@ root_authority:
       distributionPoints:
         - fullName:
             - URI: http://pki.acme.corp/acme.crl
-    authorityInfoAccess:
-      critical: false
-      accessDescriptions:
-        - caIssuers:
-            URI: http://pki.acme.corp/acme.pem
 #      oscp:
 
 revocation_list:
