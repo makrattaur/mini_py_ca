@@ -181,7 +181,7 @@ def handle_authority_access_info(ctx, ext):
     descriptions = []
     for desc in ext.dict["accessDescriptions"]:
         if len(desc) > 1:
-            raise Exception("One authority info access description  must be specified at a time.")
+            raise Exception("One authority info access description must be specified at a time.")
 
         desc_tuple = list(desc.items())[0]
         method = desc_tuple[0]
