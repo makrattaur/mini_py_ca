@@ -36,6 +36,7 @@ def main():
         )
     except TypeError:
         private_key = load_encrypted_private_key(private_key_bytes)
+        is_encrypted = True
 
     if args.operation == "decrypt" and not is_encrypted:
         print("Key is already decrypted.")
