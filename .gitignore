@@ -9,3 +9,5 @@ __pycache__
 /offline_deps
 /offline_packs
 
+/.eggs
+

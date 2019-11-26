@@ -26,6 +26,7 @@ setup(
     version = "0.0.1+" + get_git_head_hash(),
     description = "Minimal and simple root certification authority",
     packages = [ "mini_py_ca", "mini_py_ca.commands" ],
+    setup_requires = [ 'wheel' ],
     install_requires = [
         "cryptography>=2.2.2",
         "ruamel.yaml>=0.15.42",
