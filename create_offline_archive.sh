@@ -1,6 +1,7 @@
 #!/bin/sh
 
 pip3 download -r requirements.txt -d offline_deps
+pip3 download wheel -d offline_deps
 
 if [ ! -d offline_packs ] ; then
 	mkdir offline_packs
