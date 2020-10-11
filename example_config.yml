@@ -27,12 +27,6 @@ root_authority:
     authorityKeyIdentifier:
       critical: false
       keyIdentifier: issuer_hash
-    crlDistributionPoints:
-      critical: false
-      distributionPoints:
-        - fullName:
-            - URI: http://pki.acme.corp/acme.crl
-#      oscp:
 
 revocation_list:
   kind: revocation_list
@@ -58,5 +52,10 @@ authority:
       forced_critical_value: true
     keyUsage:
       forced_critical_value: true
-
+    crlDistributionPoints:
+      critical: false
+      distributionPoints:
+        - fullName:
+            - URI: http://pki.acme.corp/acme.crl
+#      oscp:
 
