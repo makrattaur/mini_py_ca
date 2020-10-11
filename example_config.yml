@@ -59,5 +59,19 @@ authority:
                 # in [RFC2585]" (see 4.2.1.13).
                 # (Also, the mime type should be 'application/pkix-crl'.)
             - URI: http://pki.acme.corp/acme.crl
-#      oscp:
+    authorityInfoAccess:
+      critical: false
+      accessDescriptions:
+        - caIssuers:
+              # By RFC 5280, the "the URI MUST point to either a single DER encoded certificate as
+              # specified in [RFC2585] or a collection of certificates in a BER or DER encoded
+              # 'certs-only' CMS message as specified in [RFC2797]" (see 4.2.2.1).
+
+              # For a single certificate (with mime type 'application/pkix-cert'):
+            URI: http://pki.acme.corp/acme.cer
+              # Or for multiple certificates (with mime type 'application/pkcs7-mime'):
+              #URI: http://pki.acme.corp/acme.p7c
+        - ocsp:
+            URI: http://oscp.acme.corp/
+
 
