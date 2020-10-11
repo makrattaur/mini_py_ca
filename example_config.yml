@@ -24,9 +24,8 @@ root_authority:
     subjectKeyIdentifier:
       critical: false
       value: subject_hash
-    authorityKeyIdentifier:
-      critical: false
-      keyIdentifier: issuer_hash
+    # By RFC 5280, when "a CA distributes its public key in the form of a 'self-signed'
+    # certificate, the authority key identifier MAY be omitted" (see 4.2.1.1).
 
 revocation_list:
   kind: revocation_list
