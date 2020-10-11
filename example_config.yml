@@ -55,6 +55,9 @@ authority:
       critical: false
       distributionPoints:
         - fullName:
+                # By RFC 5280, the "URI MUST point to a single DER encoded CRL as specified
+                # in [RFC2585]" (see 4.2.1.13).
+                # (Also, the mime type should be 'application/pkix-crl'.)
             - URI: http://pki.acme.corp/acme.crl
 #      oscp:
 
